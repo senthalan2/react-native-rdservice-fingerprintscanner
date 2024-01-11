@@ -78,6 +78,8 @@ openFingerPrintScanner(PACKAGE_NAME, pidOptions) //you can pass pidOptions (opti
 
 `PACKAGE_NAME` is required to check the rd service. (eg) The Package name of StarTek Device is `com.acpl.registersdk`
 
+You can use `AVAILABLE_PACKAGES` for `PACKAGE_NAME`.
+
 `Note` : Call `captureFinger()` Method after getting response from getDeviceInfo() method. Calling of `captureFinger()` method before `getDeviceInfo()` method, only returns Error in `catch` block. Refer [Example Code](https://github.com/senthalan2/react-native-rdservice-fingerprintscanner/blob/main/example/src/App.js). Call `openFingerPrintScanner()` method once the `isDriverFound()` method returns true value, if the driver is not found then the `openFingerPrintScanner()` method returns driver not found error. These added two methods (`isDriverFound()` and `openFingerPrintScanner()`) are used to find the selected RD Service which is passed as an argument (device driver package name) to these methods.
 
 ## Response JSON Object
