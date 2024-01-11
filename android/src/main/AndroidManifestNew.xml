@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <queries>
+    <package android:name="com.secugen.rdservice" />
+    <package android:name="com.scl.rdservice" />
+    <package android:name="com.mantra.rdservice" />
+    <package android:name="com.acpl.registersdk" />
+    <package android:name="com.rd.gemalto.com.rdserviceapp" />
+    <package android:name="com.integra.registered.device" />
+    <package android:name="com.aratek.asix_gms.rdservice" />
+    <package android:name="rdservice.metsl.metslrdservice" />
+    <package android:name="com.tatvik.bio.tmf20" />
+    <package android:name="com.evolute.rdservice" />
+    <package android:name="com.precision.pb510.rdservice" />
+    <package android:name="com.mantra.mis100v2.rdservice" />
+    <package android:name="com.nextbiometrics.rdservice" />
+    <package android:name="com.iritech.rdservice" />
+    <package android:name="com.evolute.iris.rdservice" />
+
+  </queries>
+</manifest>
