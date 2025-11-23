@@ -23,6 +23,12 @@ public interface RDServiceEvents {
   void onRDServiceCaptureResponse(String pidData, String rdServicePackage);
 
   /**
+   * A face scan data is received from the FaceRD.
+   * @param pidData The face scan PID data as XML string
+   */
+  void onRDServiceFaceCaptureResponse(String pidData);
+
+  /**
    * No installed RDService driver was found.
    */
   void onRDServiceDriverNotFound();
@@ -42,6 +48,13 @@ public interface RDServiceEvents {
    * @param rdServicePackage The package name of the RDService driver
    */
   void onRDServiceCaptureFailed(int resultCode, Intent data, String rdServicePackage);
+
+  /**
+   * Captured request sent to an RDService face capture failed.
+   * @param resultCode The resultCode returned by the FaceRD
+   * @param data The data returned by the FaceRD activity
+   */
+  void onRDServiceFaceCaptureFailed(int resultCode, Intent data);
 
   void onDeviceDriverFound(Boolean isFound);
 }
