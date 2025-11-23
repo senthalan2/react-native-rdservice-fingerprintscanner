@@ -19,8 +19,15 @@ public interface RDServiceEvents {
   /**
    * A fingerprint scan data is received from the RDService.
    * @param pidData The fingerprint scan PID data as XML string
+   * @param rdServicePackage The RDService device driver package name
    */
   void onRDServiceCaptureResponse(String pidData, String rdServicePackage);
+
+  /**
+   * A face scan data is received from the RDService.
+   * @param pidData The face scan PID data as XML string
+   */
+  void onRDServiceFaceCaptureResponse(String pidData);
 
   /**
    * No installed RDService driver was found.
@@ -42,6 +49,13 @@ public interface RDServiceEvents {
    * @param rdServicePackage The package name of the RDService driver
    */
   void onRDServiceCaptureFailed(int resultCode, Intent data, String rdServicePackage);
+
+  /**
+   * Captured request sent to an RDService face capture failed.
+   * @param resultCode The resultCode returned by the RDService
+   * @param data The data returned by the RDService activity
+   */
+  void onRDServiceFaceCaptureFailed(int resultCode, Intent data);
 
   void onDeviceDriverFound(Boolean isFound);
 }

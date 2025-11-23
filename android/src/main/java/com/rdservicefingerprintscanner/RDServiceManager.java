@@ -15,6 +15,8 @@ import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
+import org.json.JSONObject;
+
 /**
  * Helper class to help capture fingerprint data by using RDService drivers for fingerprint-devices.
  * @author https://github.com/manustays
@@ -28,6 +30,7 @@ public class RDServiceManager {
   private static final int RC_RDSERVICE_CAPTURE_START_INDEX = 8300;
 
   private static final int FINGERPRINT_SCANNER_CAPTURE = 8761;
+  private static final int FACE_SCANNER_CAPTURE = 8762;
 
 
   private static final Map<String, Integer> mapRDDriverRCIndex = new HashMap<String, Integer>();
@@ -142,6 +145,17 @@ public class RDServiceManager {
         mRDEvent.onRDServiceCaptureFailed(resultCode, data, rdservice_pkg_name);    // Fingerprint Capture Failed
       }
     }
+    else if(requestCode == FACE_SCANNER_CAPTURE){
+      Log.d("FACEEE","inside face"+data+resultCode);
+      if(resultCode == RESULT_OK){
+        onRDServiceFaceCaptureIntentResponse(data);
+        Log.d("FACE", "onActivityResult: "+"OK");
+      }
+      else{
+        mRDEvent.onRDServiceFaceCaptureFailed(resultCode, data);
+        Log.d("FACE", "onActivityResult: "+"ELSE");
+      }
+    }
   }
 
 
@@ -166,7 +180,7 @@ public class RDServiceManager {
     return isContainesPackage;
   }
 
-  public void isDriverFound(String packageName, Activity activity){
+  public void getIsDriverFound(String packageName, Activity activity){
     mRDEvent.onDeviceDriverFound(isDeviceDriverFound(packageName,activity));
   }
 
@@ -258,6 +272,14 @@ public class RDServiceManager {
     }
   }
 
+  public void captureFace(@NonNull String pid_options,Activity activity){
+    Intent intent = new Intent("in.gov.uidai.rdservice.face.CAPTURE");
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    intent.putExtra("request", pid_options);
+    Log.d("FACETRY","insidetryu");
+    activity.startActivityForResult(intent, FACE_SCANNER_CAPTURE);
+  }
+
 
   /**
    * Process response RDService driver status info.
@@ -290,6 +312,15 @@ public class RDServiceManager {
       // sendWebViewResponse("rdservice_resp", b.getString("PID_DATA", ""));
       mRDEvent.onRDServiceCaptureResponse(b.getString("PID_DATA", ""), rd_service_package);
 
+    }
+  }
+
+
+  private void onRDServiceFaceCaptureIntentResponse(@NonNull Intent data) {
+    Bundle b = data.getExtras();
+
+    if (b != null) {
+      mRDEvent.onRDServiceFaceCaptureResponse(b.getString("response", ""));
     }
   }
 
