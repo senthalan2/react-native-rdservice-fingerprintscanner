@@ -1,21 +1,29 @@
 # 🛠️ react-native-rdservice-fingerprintscanner
 
-React Native library to easily integrate Fingerprint Device support in your app (for UIDAI Aadhaar based secure authentication in India). It is only for Android Devices.
+React Native library to easily integrate Fingerprint Device support and Face capture via the [AadhaarFaceRD](https://play.google.com/store/apps/details?id=in.gov.uidai.facerd&hl=en) app in your app (for UIDAI Aadhaar-based secure authentication in India). It is only for Android Devices.
 
-As per [UIDAI](https://uidai.gov.in/) (Aadhaar) guidelines, only registered biometric devices can be used for Aadhaar Authentication. These devices come with RDService drivers (usually available on PlayStore) that exposes a standard API.
+As per [UIDAI](https://uidai.gov.in/) (Aadhaar) guidelines, only registered biometric devices can be used for Aadhaar Authentication. These devices come with RDService drivers (usually available on PlayStore) that expose a standard API for fingerprint capture.
 
-This library makes it easy to work with all such devices so that your app can search for installed drivers and get the fingerprint data after a scan.
+This library makes it easy to work with all such devices and the [AadhaarFaceRD](https://play.google.com/store/apps/details?id=in.gov.uidai.facerd&hl=en) app so that your app can:
 
-For reference, you may check out the ([Aadhaar Registered Devices by UIDAI](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_4.pdf)).
+  - 🔍 Search for installed RDService drivers.
+  - ✋ Capture fingerprint data from registered devices.
+  - 😃 Capture face data via the AadhaarFaceRD app.
+
+For reference, you may check out the following UIDAI documents:
+- [📄 Version 2.0, Revision 6 – Aadhaar Registered Devices](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_4.pdf)
+- [📄 Version 2.0, Revision 7 – Aadhaar Registered Devices](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_Revision-7_of_Jan_2022.pdf)
+- [📄 Version 2.5, Revision 1 – Aadhaar Authentication API](https://uidai.gov.in/images/resource/Aadhaar_Authentication_API-2.5_Revision-1_of_January_2022.pdf) 
+.
 
 ## 🚀 Version Support (Old Architecture vs New Architecture)
 ### ⚠️ Important Update (Version 2.x.x)
 
 From v2.x.x, this library now supports React Native New Architecture using:
 
-  - TurboModule Codegen
-  - Fabric-compatible structure
-  - Kotlin (Android)
+  - ⚡ TurboModule Codegen
+  - 🧩 Fabric-compatible structure
+  - 🛠️ Kotlin (Android)
 
 ### ✅ Version Compatibility
 
