@@ -15,6 +15,8 @@ import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
+import org.json.JSONObject;
+
 /**
  * Helper class to help capture fingerprint data by using RDService drivers for fingerprint-devices.
  * @author https://github.com/manustays
@@ -175,7 +177,7 @@ public class RDServiceManager {
     return isContainesPackage;
   }
 
-  public void isDriverFound(String packageName, Activity activity){
+  public void getIsDriverFound(String packageName, Activity activity){
     mRDEvent.onDeviceDriverFound(isDeviceDriverFound(packageName,activity));
   }
 
@@ -271,6 +273,7 @@ public class RDServiceManager {
     Intent intent = new Intent("in.gov.uidai.rdservice.face.CAPTURE");
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     intent.putExtra("request", pid_options);
+    Log.d("FACETRY","insidetryu");
     activity.startActivityForResult(intent, FACE_SCANNER_CAPTURE);
   }
 
@@ -308,6 +311,7 @@ public class RDServiceManager {
 
     }
   }
+
 
   private void onRDServiceFaceCaptureIntentResponse(@NonNull Intent data) {
     Bundle b = data.getExtras();

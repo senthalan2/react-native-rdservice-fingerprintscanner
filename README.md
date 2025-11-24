@@ -1,19 +1,43 @@
-# react-native-rdservice-fingerprintscanner
+# 🛠️ react-native-rdservice-fingerprintscanner
 
-React Native library to easily integrate Fingerprint Device support in your app (for UIDAI Aadhaar based secure authentication in India). It is only for Android Devices.
+React Native library to easily integrate Fingerprint Device support and Face capture via the [AadhaarFaceRD](https://play.google.com/store/apps/details?id=in.gov.uidai.facerd&hl=en) app in your app (for UIDAI Aadhaar-based secure authentication in India). It is only for Android Devices.
 
-As per [UIDAI](https://uidai.gov.in/) (Aadhaar) guidelines, only registered biometric devices can be used for Aadhaar Authentication. These devices come with RDService drivers (usually available on PlayStore) that exposes a standard API.
+As per [UIDAI](https://uidai.gov.in/) (Aadhaar) guidelines, only registered biometric devices can be used for Aadhaar Authentication. These devices come with RDService drivers (usually available on PlayStore) that expose a standard API for fingerprint capture.
 
-This library makes it easy to work with all such devices so that your app can search for installed drivers and get the fingerprint data after a scan.
+This library makes it easy to work with all such devices and the [AadhaarFaceRD](https://play.google.com/store/apps/details?id=in.gov.uidai.facerd&hl=en) app so that your app can:
 
-For reference, you may check out the ([Aadhaar Registered Devices by UIDAI](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_4.pdf)).
+  - 🔍 Search for installed RDService drivers.
+  - ✋ Capture fingerprint data from registered devices.
+  - 😃 Capture face data via the AadhaarFaceRD app.
 
-## Installation
+For reference, you may check out the following UIDAI documents:
+- [📄 Version 2.0, Revision 6 – Aadhaar Registered Devices](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_4.pdf)
+- [📄 Version 2.0, Revision 7 – Aadhaar Registered Devices](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_Revision-7_of_Jan_2022.pdf)
+- [📄 Version 2.5, Revision 1 – Aadhaar Authentication API](https://uidai.gov.in/images/resource/Aadhaar_Authentication_API-2.5_Revision-1_of_January_2022.pdf)
+
+## 🚀 Version Support (Old Architecture vs New Architecture)
+### ⚠️ Important Update (Version 2.x.x)
+
+From v2.x.x, this library now supports React Native New Architecture using:
+
+  - ⚡ TurboModule Codegen
+  - 🧩 Fabric-compatible structure
+  - 🛠️ Kotlin (Android)
+
+### ✅ Version Compatibility
+
+| Package Version | Architecture | React Native Compatibility | Notes  |
+| --------------- | ------------ | -------------------------- | ------ |
+| **2.x.x**       | **New Architecture (TurboModules)**  | **RN 0.76+** (or any version with New Architecture enabled) | Recommended. Better performance & bridging.  |
+| **1.x.x**   | **Old Architecture (Legacy Native Modules)** | RN **0.63 – 0.75** | Backward compatibility only. No new features. |
+
+
+## 📦 Installation
 
 ```sh
 npm install react-native-rdservice-fingerprintscanner
 ```
-
+## ⚙️ Android Setup
 Add jitpack in your root build.gradle file at the end of repositories: `android/build.gradle`
 
 ```java
@@ -25,13 +49,29 @@ allprojects {
 }
 ```
 
-## Usage
+## 🔄 Migration Guide: 1.x.x → 2.x.x
+
+If upgrading from Old Architecture → New Architecture:
+
+| Old Name / Type                      | New Name / Type              |
+| ------------------------------------ | ---------------------------- |
+| `isDriverFound()`                    | **`getIsDriverFound()`**     |
+| All type/interface names (camelCase) | **Capitalized (PascalCase)** |
+
+#### Notes:
+
+- Call `getIsDriverFound()` instead of `isDriverFound()`.
+
+- Update all type/interface names in your code to the capitalized version for proper TypeScript support in v2.x.x.
+
+
+## 📘 Usage
 
 ```js
 import {
   getDeviceInfo,
   captureFinger,
-  isDriverFound,
+  getIsDriverFound,
   openFingerPrintScanner,
   captureFace,
   AVAILABLE_PACKAGES,
@@ -56,7 +96,7 @@ captureFinger(pidOptions) // You can pass pidOptions (optional) to the "captureF
     console.log(e, 'ERROR_FINGER_CAPTURE'); // Failed to capture the Fingerprint
   });
 
-isDriverFound(PACKAGE_NAME) // You can use "AVAILABLE_PACKAGES" for the PACKAGE_NAME
+getIsDriverFound(PACKAGE_NAME) // You can use "AVAILABLE_PACKAGES" for the PACKAGE_NAME
   .then((res) => {
     console.log(res, 'DRIVER CHECK');
   })
@@ -79,9 +119,10 @@ captureFace(pidOptions) // You should pass pidOptions to the "captureFace" metho
   .catch((e) => {
     console.log(e, 'ERROR_FACE_CAPTURE'); // Failed to capture the Face
   });
+
 ```
 
-## Using pidOptions and RD Service Methods
+## 🛠️ Using pidOptions and RD Service Methods
 
 `pidOptions` is an XML string that you need to pass to the `captureFinger`, `openFingerPrintScanner` and `captureFace` methods.
 
@@ -97,9 +138,22 @@ Refer to Version 2.5 of UIDAI [Revision 1](https://uidai.gov.in/images/resource/
 
 You can use `AVAILABLE_PACKAGES` for `PACKAGE_NAME`.
 
-`Note`: Call the `captureFinger` method after receiving a response from the `getDeviceInfo` method. Calling `captureFinger` before `getDeviceInfo` will only return an error in the catch block [(refer to the example code)](https://github.com/senthalan2/react-native-rdservice-fingerprintscanner/blob/main/example/App.tsx). Call the `openFingerPrintScanner` method only after the `isDriverFound` method returns true; if the driver is not found, `openFingerPrintScanner` will return a driver not found error. The two methods `isDriverFound` and `openFingerPrintScanner` are used to locate the selected RD Service, which is passed as an argument (device driver package name) to these methods. The [AadhaarFaceRD](https://play.google.com/store/apps/details?id=in.gov.uidai.facerd&hl=en) app must be installed to use the `captureFace` method.
 
-## Response JSON Object
+## 📝 Usage Notes
+
+- Always call `captureFinger` after receiving a response from `getDeviceInfo`.
+  - Calling it before will result in an error in the catch block.[(refer to the example code)](https://github.com/senthalan2/react-native-rdservice-fingerprintscanner/blob/main/example/App.tsx)
+
+- Only call `openFingerPrintScanner` after `getIsDriverFound` returns true.
+  - If the driver is not found, `openFingerPrintScanner` will return a “driver not found” error.
+
+- The methods `getIsDriverFound` and `openFingerPrintScanner` are used to locate the selected RD Service.
+  - Pass the device driver package name as an argument to these methods.
+
+- The [AadhaarFaceRD](https://play.google.com/store/apps/details?id=in.gov.uidai.facerd&hl=en) app must be installed to use the `captureFace` method.
+
+
+## 📄 Response JSON Object
 
 `getDeviceInfo()` Method Reponse
 
@@ -124,7 +178,7 @@ You can use `AVAILABLE_PACKAGES` for `PACKAGE_NAME`.
 | rdServicePackage | Device Package  |
 | message    | Message about Success or Failure    |
 
-`isDriverFound()` Method Response
+`getIsDriverFound()` Method Response
 
 | Key                 | Value  | Description  |
 | ------------------- | -------- | ---------- |
@@ -143,24 +197,25 @@ You can use `AVAILABLE_PACKAGES` for `PACKAGE_NAME`.
 | message          | Message about Success or Failure  |
 
 
-## Tested Devices
+## ✅ Tested Devices
 
-| Device Name   | Result             |
-| ------------- | ------------------ |
-| Startek FM220 | :white_check_mark: |
-| MORPHO        | :white_check_mark: |
-| MANTRA        | :white_check_mark: |
-| Tatvik TMF20  | :white_check_mark: |
-| PB510         | :white_check_mark: |
+| Device Name   | Result|
+| ------------- | ------|
+| Startek FM220 | ✅ |
+| MORPHO        | ✅ |
+| MANTRA        | ✅ |
+| Tatvik TMF20  | ✅ |
+| PB510         | ✅ |
 
-## Contributing
+## 🤝 Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
-## License
+## 📜 License
 
 MIT
 
-## Would you like to support me?
+## ☕ Would you like to support me?
 
 <a href="https://www.buymeacoffee.com/senthalan2" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+

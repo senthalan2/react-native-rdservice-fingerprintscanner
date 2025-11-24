@@ -11,36 +11,36 @@ import {
 import {
   getDeviceInfo,
   captureFinger,
-  isDriverFound,
+  getIsDriverFound,
   openFingerPrintScanner,
   DEFAULT_PID_OPTIONS,
   AVAILABLE_PACKAGES,
   captureFace,
-  type faceCaptureDataProps,
+  FaceCaptureDataProps,
 } from 'react-native-rdservice-fingerprintscanner';
-import RNSimpleCrypto from 'react-native-simple-crypto';
+import { base64Encode, hashSHA256 } from 'rn-encryption';
 
 const PACKAGE_NAME = AVAILABLE_PACKAGES.Startek_FM220;
 export default function App() {
-  const [faceData, setfaceData] = React.useState<faceCaptureDataProps | null>(
-    null
+  const [faceData, setfaceData] = React.useState<FaceCaptureDataProps | null>(
+    null,
   );
   const start = () => {
     getDeviceInfo()
-      .then((res) => {
+      .then(res => {
         console.log(res, 'DEVICE INFO');
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e, 'ERROR_DEVICE_INFO ');
       });
   };
 
   const openScanner = () => {
     openFingerPrintScanner(PACKAGE_NAME)
-      .then((res) => {
+      .then(res => {
         console.log(res, 'FINGER CAPTURE');
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e, 'ERROR_FINGER_CAPTURE');
       });
   };
@@ -49,25 +49,25 @@ export default function App() {
     // const pidOptions =
     //   '<PidOptions><Opts fCount="1" fType="0" iCount="0" pCount="0" format="0" pidVer="2.0" timeout="20000" otp="" posh="LEFT_INDEX" env="S" wadh="" /> <Demo></Demo> <CustOpts> <Param name="Param1" value="" /> </CustOpts> </PidOptions>';
     captureFinger() //you can pass pidOptions to "captureFinger(pidOptions)"" method otherwise it takes DEFAULT_PID_OPTIONS
-      .then((res) => {
+      .then(res => {
         console.log(res, 'FINGER CAPTURE');
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e, 'ERROR_FINGER_CAPTURE');
       });
   };
 
   const checkDriver = () => {
-    isDriverFound(PACKAGE_NAME)
-      .then((res) => {
+    getIsDriverFound(PACKAGE_NAME)
+      .then(res => {
         console.log(res, 'DRIVER CHECK');
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e, 'ERROR_DRIVER CHECK');
       });
   };
 
-  const generateWadhForFaceAuth_KUA = async () => {
+  const generateWadhForFaceAuth_KUA = () => {
     try {
       let VERSION = '2.5';
       let RESIDENT_AUTHENTICATION_TYPE = 'P';
@@ -84,13 +84,8 @@ export default function App() {
         DECRYPTION +
         PRINT_FORMAT;
 
-      const messageBytes =
-        RNSimpleCrypto.utils.convertUtf8ToArrayBuffer(combineData);
-
-      const hashBuffer = await RNSimpleCrypto.SHA.sha256(messageBytes);
-
-      const hashBase64 =
-        RNSimpleCrypto.utils.convertArrayBufferToBase64(hashBuffer);
+      const hashKey = hashSHA256(combineData);
+      const hashBase64 = base64Encode(hashKey);
 
       return hashBase64;
     } catch (error) {
@@ -125,11 +120,13 @@ export default function App() {
       </CustOpts>
     </PidOptions>`;
 
-    captureFace(pidOptionsXML)
-      .then((res) => {
+    captureFace(
+      pidOptionsXML,
+    )
+      .then(res => {
         setfaceData(res);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e.message, 'ERROR');
 
         Alert.alert('Failed', e?.toString());
