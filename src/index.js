@@ -137,8 +137,12 @@ export function captureFinger(pidOptions = DEFAULT_PID_OPTIONS) {
   });
 }
 
-export function captureFace(pidOptions = DEFAULT_PID_OPTIONS) {
+export function captureFace(pidOptions) {
   return new Promise((resolve, reject) => {
+    if(!pidOptions){
+      reject("PID Options cannot be empty")
+      return
+    }
     RdserviceFingerprintscanner.captureFace(pidOptions)
       .then((res) => {
         const resObj = {
