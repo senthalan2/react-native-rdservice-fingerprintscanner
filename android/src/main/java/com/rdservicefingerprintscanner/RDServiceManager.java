@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -273,7 +272,6 @@ public class RDServiceManager {
     Intent intent = new Intent("in.gov.uidai.rdservice.face.CAPTURE");
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     intent.putExtra("request", pid_options);
-    Log.d("FACETRY","insidetryu");
     activity.startActivityForResult(intent, FACE_SCANNER_CAPTURE);
   }
 
