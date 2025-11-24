@@ -81,6 +81,6 @@ declare module "react-native-rdservice-fingerprintscanner" {
     export function captureFinger(pidOptions?: string): Promise<FingerprintDataProps>;
     export function getIsDriverFound(packageName: PackageNameProp): Promise<DriverDataProps>;
     export function openFingerPrintScanner(packageName: PackageNameProp, pidOptions?: string): Promise<FingerprintDataProps | DriverDataProps>;
-    export function captureFace(pidOptions?: string): Promise<FaceCaptureDataProps>;
+    export function captureFace(pidOptions: string): Promise<FaceCaptureDataProps>;
 
 }
