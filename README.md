@@ -13,8 +13,7 @@ This library makes it easy to work with all such devices and the [AadhaarFaceRD]
 For reference, you may check out the following UIDAI documents:
 - [📄 Version 2.0, Revision 6 – Aadhaar Registered Devices](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_4.pdf)
 - [📄 Version 2.0, Revision 7 – Aadhaar Registered Devices](https://uidai.gov.in/images/resource/Aadhaar_Registered_Devices_2_0_Revision-7_of_Jan_2022.pdf)
-- [📄 Version 2.5, Revision 1 – Aadhaar Authentication API](https://uidai.gov.in/images/resource/Aadhaar_Authentication_API-2.5_Revision-1_of_January_2022.pdf) 
-.
+- [📄 Version 2.5, Revision 1 – Aadhaar Authentication API](https://uidai.gov.in/images/resource/Aadhaar_Authentication_API-2.5_Revision-1_of_January_2022.pdf)
 
 ## 🚀 Version Support (Old Architecture vs New Architecture)
 ### ⚠️ Important Update (Version 2.x.x)
