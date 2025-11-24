@@ -1,26 +1,35 @@
 declare module "react-native-rdservice-fingerprintscanner" {
     export type deviceInfoProps = {
-        isWhitelisted: boolean,
-        rdServiceInfoJson: JSON,
-        rdServiceInfoXML: string,
-        rdServicePackage: string,
-        status: number,
-        message: string,
+        isWhitelisted: boolean;
+        rdServiceInfoJson: Record<string, any>;
+        rdServiceInfoXML: string;
+        rdServicePackage: string;
+        status: number;
+        message: string;
     }
 
     export type optionalInfo = {
-        status: number,
-        message: string,
+        status: number;
+        message: string;
     }
 
     export type fingerprintDataProps = {
-        pidDataJson: JSON,
-        pidDataXML: string,
-        rdServicePackage: string,
-        status: number,
-        errInfo: string,
-        errorCode: number,
-        message: string,
+        pidDataJson: Record<string, any>;
+        pidDataXML: string;
+        rdServicePackage: string;
+        status: number;
+        errInfo: string;
+        errorCode: number;
+        message: string;
+    }
+
+    export type faceCaptureDataProps = {
+        pidDataJson: Record<string, any>;
+        pidDataXml: string;
+        status: number;
+        errInfo: string;
+        errorCode: number;
+        message: string;
     }
 
     export type driverDataProps = {
@@ -52,5 +61,6 @@ declare module "react-native-rdservice-fingerprintscanner" {
     export function captureFinger(pidOptions?: string): Promise<fingerprintDataProps>;
     export function isDriverFound(packageName: string): Promise<driverDataProps>;
     export function openFingerPrintScanner(packageName: string, pidOptions?: string): Promise<fingerprintDataProps | driverDataProps>;
+    export function captureFace(pidOptions: string): Promise<faceCaptureDataProps>;
 
 }

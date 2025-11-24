@@ -68,6 +68,13 @@ public class RdserviceFingerprintscannerModule extends ReactContextBaseJavaModul
     rdServiceManager.captureRdService(servicePackage,pidOptions,activity);
   }
 
+  @ReactMethod
+  public void captureFace(String pidOptions, Promise promise) {
+    this.promise = promise;
+    final Activity activity = getCurrentActivity();
+    rdServiceManager.captureFace(pidOptions,activity);
+  }
+
 
   @Override
   public void onDeviceDriverFound(Boolean isFound) {
@@ -149,6 +156,39 @@ public class RdserviceFingerprintscannerModule extends ReactContextBaseJavaModul
   }
 
   @Override
+  public void onRDServiceFaceCaptureResponse(String pidData) {
+
+    XmlToJson xmlToJson = new XmlToJson.Builder(pidData).build();
+    String jsonString = xmlToJson.toString();
+
+    try{
+      JSONObject obj = new JSONObject(jsonString);
+      JSONObject response =  obj.getJSONObject("PidData").getJSONObject("Resp");
+      String errorCode = response.getString("errCode");
+      String errInfo = "";
+      WritableMap responseData = Arguments.createMap();
+      if(Integer.parseInt(errorCode) == 0 ){
+        responseData.putInt("status",1);
+        responseData.putString("message","Face Captured Successfully");
+      }
+      else {
+        errInfo = response.getString("errInfo");
+        responseData.putInt("status",0);
+        responseData.putString("message",errInfo);
+      }
+
+      responseData.putString("errorCode",errorCode);
+      responseData.putString("errInfo",errInfo);
+      responseData.putString("pidDataJsonString", jsonString);
+      responseData.putString("pidDataXML", pidData);
+      promise.resolve(responseData);
+    }
+    catch (JSONException e){
+      promise.reject("FACE_CAPTURE_FAILED", "Face Capture Failed");
+    }
+  }
+
+  @Override
   public void onRDServiceDriverNotFound() {
     // Called when no installed driver is found
     WritableMap responseData = Arguments.createMap();
@@ -168,6 +208,11 @@ public class RdserviceFingerprintscannerModule extends ReactContextBaseJavaModul
   public void onRDServiceCaptureFailed(int resultCode, Intent data, String rdServicePackage) {
     // Called when fingerprint capture fails
     promise.reject("FINGERPRINT_CAPTURE__FAILED","FingerPrint Capture Failed");
+  }
+
+  @Override
+  public void onRDServiceFaceCaptureFailed(int resultCode, Intent data) {
+    promise.reject("FACE_CAPTURE__FAILED","Face Capture Failed");
   }
 
   private class RDServiceActivityEventListener extends BaseActivityEventListener {

@@ -136,3 +136,27 @@ export function captureFinger(pidOptions = DEFAULT_PID_OPTIONS) {
       });
   });
 }
+
+export function captureFace(pidOptions) {
+  return new Promise((resolve, reject) => {
+    if(!pidOptions){
+      reject("PID Options cannot be empty")
+      return
+    }
+    RdserviceFingerprintscanner.captureFace(pidOptions)
+      .then((res) => {
+        const resObj = {
+          pidDataJson: JSON.parse(res.pidDataJsonString),
+          pidDataXML: res.pidDataXML,
+          status: res.status,
+          errInfo: res.errInfo,
+          errorCode: parseInt(res.errorCode),
+          message: res.message,
+        };
+        resolve(resObj);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
