@@ -146,14 +146,11 @@ public class RDServiceManager {
       }
     }
     else if(requestCode == FACE_SCANNER_CAPTURE){
-      Log.d("FACEEE","inside face"+data+resultCode);
       if(resultCode == RESULT_OK){
         onRDServiceFaceCaptureIntentResponse(data);
-        Log.d("FACE", "onActivityResult: "+"OK");
       }
       else{
         mRDEvent.onRDServiceFaceCaptureFailed(resultCode, data);
-        Log.d("FACE", "onActivityResult: "+"ELSE");
       }
     }
   }

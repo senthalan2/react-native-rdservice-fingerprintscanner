@@ -175,7 +175,7 @@ class RDServiceFingerprintScannerModule(reactContext: ReactApplicationContext) :
       responseData.putString("pidDataXML", pidData)
       promise!!.resolve(responseData)
     } catch (e: JSONException) {
-      promise!!.reject("FACE_CAPTURE__FAILED", "Face Capture Failed")
+      promise!!.reject("FACE_CAPTURE_FAILED", "Face Capture Failed")
     }
   }
 
@@ -203,7 +203,7 @@ class RDServiceFingerprintScannerModule(reactContext: ReactApplicationContext) :
   }
 
   override fun onRDServiceFaceCaptureFailed(resultCode: Int, data: Intent?) {
-    promise!!.reject("FACE_CAPTURE__FAILED", "Face Capture Failed")
+    promise!!.reject("FACE_CAPTURE_FAILED", "Face Capture Failed")
   }
 
   private inner class RDServiceActivityEventListener : BaseActivityEventListener() {

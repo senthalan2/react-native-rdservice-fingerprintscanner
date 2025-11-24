@@ -24,7 +24,7 @@ public interface RDServiceEvents {
   void onRDServiceCaptureResponse(String pidData, String rdServicePackage);
 
   /**
-   * A face scan data is received from the RDService.
+   * A face scan data is received from the FaceRD.
    * @param pidData The face scan PID data as XML string
    */
   void onRDServiceFaceCaptureResponse(String pidData);
@@ -52,8 +52,8 @@ public interface RDServiceEvents {
 
   /**
    * Captured request sent to an RDService face capture failed.
-   * @param resultCode The resultCode returned by the RDService
-   * @param data The data returned by the RDService activity
+   * @param resultCode The resultCode returned by the FaceRD
+   * @param data The data returned by the FaceRD activity
    */
   void onRDServiceFaceCaptureFailed(int resultCode, Intent data);
 
