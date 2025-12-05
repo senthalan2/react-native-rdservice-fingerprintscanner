@@ -54,7 +54,7 @@ public interface RDServiceEvents {
    * @param resultCode The resultCode returned by the FaceRD
    * @param data The data returned by the FaceRD activity
    */
-  void onRDServiceFaceCaptureFailed(int resultCode, Intent data);
+  void onRDServiceFaceCaptureFailed(String msg);
 
   void onDeviceDriverFound(Boolean isFound);
 }

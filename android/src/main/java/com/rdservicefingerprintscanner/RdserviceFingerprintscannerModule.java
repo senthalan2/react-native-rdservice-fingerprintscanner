@@ -211,8 +211,8 @@ public class RdserviceFingerprintscannerModule extends ReactContextBaseJavaModul
   }
 
   @Override
-  public void onRDServiceFaceCaptureFailed(int resultCode, Intent data) {
-    promise.reject("FACE_CAPTURE__FAILED","Face Capture Failed");
+  public void onRDServiceFaceCaptureFailed(String msg) {
+    promise.reject("FACE_CAPTURE__FAILED",msg);
   }
 
   private class RDServiceActivityEventListener extends BaseActivityEventListener {
