@@ -149,7 +149,7 @@ public class RDServiceManager {
         onRDServiceFaceCaptureIntentResponse(data);
       }
       else{
-        mRDEvent.onRDServiceFaceCaptureFailed(resultCode, data);
+        mRDEvent.onRDServiceFaceCaptureFailed("Face Capture Failed");
       }
     }
   }
@@ -272,7 +272,15 @@ public class RDServiceManager {
     Intent intent = new Intent("in.gov.uidai.rdservice.face.CAPTURE");
     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     intent.putExtra("request", pid_options);
-    activity.startActivityForResult(intent, FACE_SCANNER_CAPTURE);
+    try {
+      activity.startActivityForResult(intent, FACE_SCANNER_CAPTURE);
+    } catch (Exception e) {
+      String errormsg = "Face Capture Failed";
+      if(e.getMessage().toLowerCase().contains("no activity found")){
+        errormsg = "Face capture failed. Please check whether the AadhaarFaceRD app is installed on your device.";
+      }
+      mRDEvent.onRDServiceFaceCaptureFailed(errormsg);
+    }
   }
 
 
