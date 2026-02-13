@@ -25,7 +25,7 @@ declare module "react-native-rdservice-fingerprintscanner" {
 
     export type faceCaptureDataProps = {
         pidDataJson: Record<string, any>;
-        pidDataXml: string;
+        pidDataXML: string;
         status: number;
         errInfo: string;
         errorCode: number;
