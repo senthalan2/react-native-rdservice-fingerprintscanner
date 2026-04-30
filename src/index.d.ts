@@ -9,11 +9,6 @@ declare module "react-native-rdservice-fingerprintscanner" {
         message: string;
     }
 
-    export type OptionalInfo = {
-        status: number;
-        message: string;
-    }
-
     export type FingerprintDataProps = {
         pidDataJson: Record<string, any>;
         pidDataXML: string;
@@ -26,6 +21,7 @@ declare module "react-native-rdservice-fingerprintscanner" {
 
     export type DriverDataProps = {
         isDeviceDriverFound: boolean;
+        status:number
         message: string;
     }
 
@@ -67,7 +63,7 @@ declare module "react-native-rdservice-fingerprintscanner" {
 
     export interface FaceCaptureDataProps {
         pidDataJson: Record<string, any>;
-        pidDataXml: string;
+        pidDataXML: string;
         status: number;
         errInfo: string;
         errorCode: string;
@@ -77,10 +73,10 @@ declare module "react-native-rdservice-fingerprintscanner" {
     export const DEFAULT_PID_OPTIONS: string;
     export const AVAILABLE_PACKAGES: Readonly<AvailablePackageProps>;
 
-    export function getDeviceInfo(): Promise<DeviceInfoProps | OptionalInfo>;
+    export function getDeviceInfo(): Promise<DeviceInfoProps>;
     export function captureFinger(pidOptions?: string): Promise<FingerprintDataProps>;
     export function getIsDriverFound(packageName: PackageNameProp): Promise<DriverDataProps>;
-    export function openFingerPrintScanner(packageName: PackageNameProp, pidOptions?: string): Promise<FingerprintDataProps | DriverDataProps>;
+    export function openFingerPrintScanner(packageName: PackageNameProp, pidOptions?: string): Promise<FingerprintDataProps>;
     export function captureFace(pidOptions: string): Promise<FaceCaptureDataProps>;
 
 }

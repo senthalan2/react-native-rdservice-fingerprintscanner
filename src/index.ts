@@ -1,5 +1,5 @@
 import RDServiceFingerprintScanner from "./NativeRDServiceFingerprintScanner";
-import type { AvailablePackageProps, DeviceInfoNativeResponseProps, DeviceInfoProps, DriverDataProps, FaceCaptureDataProps, FingerprintDataProps, OptionalInfo, PackageNameProp } from "./types";
+import type { AvailablePackageProps, DeviceInfoNativeResponseProps, DeviceInfoProps, DriverDataProps, FaceCaptureDataProps, FingerprintDataProps, PackageNameProp } from "./types";
 
 
 export const AVAILABLE_PACKAGES: AvailablePackageProps = {
@@ -8,6 +8,7 @@ export const AVAILABLE_PACKAGES: AvailablePackageProps = {
     Mantra: 'com.mantra.rdservice',
     Startek_FM220: 'com.acpl.registersdk',
     Gemalto_3M_Cogent_CSD200: 'com.rd.gemalto.com.rdserviceapp',
+    Startek_L1: 'com.acpl.registersdk_l1',
     Integra: 'com.integra.registered.device',
     Aratek: 'com.aratek.asix_gms.rdservice',
     Maestros: 'rdservice.metsl.metslrdservice',
@@ -15,6 +16,7 @@ export const AVAILABLE_PACKAGES: AvailablePackageProps = {
     Evolute: 'com.evolute.rdservice',
     PB510: 'com.precision.pb510.rdservice',
     MIS100V2_by_Mantra: 'com.mantra.mis100v2.rdservice',
+    MFS110_by_Mantra: 'com.mantra.mfs110.rdservice',
     NEXT_Biometrics_NB3023: 'com.nextbiometrics.rdservice',
     IriTech_IriShield: 'com.iritech.rdservice',
     Evolute_IRIS: 'com.evolute.iris.rdservice',
@@ -22,16 +24,12 @@ export const AVAILABLE_PACKAGES: AvailablePackageProps = {
 
 export const DEFAULT_PID_OPTIONS: string = `<PidOptions ver="1.0"> <Opts fCount="1" fType="0" iCount="0" pCount="0" format="0" pidVer="2.0" timeout="20000" otp="" posh="UNKNOWN" env="P" wadh="" /> <Demo></Demo><CustOpts> <Param name="ValidationKey" value="" /> </CustOpts> </PidOptions>`;
 
-export function getDeviceInfo(): Promise<DeviceInfoProps | OptionalInfo> {
+export function getDeviceInfo(): Promise<DeviceInfoProps> {
     return new Promise((resolve, reject) => {
         RDServiceFingerprintScanner.getDeviceInfo()
             .then((res) => {
                 if (res.status === -1) {
-                    const resObj: OptionalInfo = {
-                        status: res.status,
-                        message: res.message,
-                    };
-                    resolve(resObj);
+                    reject(res.message);
                 } else {
                     const resTyped = res as DeviceInfoNativeResponseProps;
                     const resObj: DeviceInfoProps = {
@@ -70,7 +68,7 @@ export function getIsDriverFound(packageName: PackageNameProp): Promise<DriverDa
 export function openFingerPrintScanner(
     packageName: PackageNameProp,
     pidOptions: string = DEFAULT_PID_OPTIONS
-): Promise<FingerprintDataProps | DriverDataProps> {
+): Promise<FingerprintDataProps> {
     return new Promise((resolve, reject) => {
         if (!packageName) {
             reject('Package name cannot be empty');
@@ -93,7 +91,7 @@ export function openFingerPrintScanner(
                     };
                     resolve(resObj);
                 } else {
-                    resolve(res as DriverDataProps);
+                    reject(res.message);
                 }
             })
             .catch((err) => {
@@ -134,7 +132,7 @@ export function captureFace(pidOptions: string): Promise<FaceCaptureDataProps> {
             .then((res) => {
                 const resObj: FaceCaptureDataProps = {
                     pidDataJson: JSON.parse(res.pidDataJsonString),
-                    pidDataXml: res.pidDataXml,
+                    pidDataXML: res.pidDataXML,
                     status: res.status,
                     errInfo: res.errInfo,
                     errorCode: res.errorCode,
