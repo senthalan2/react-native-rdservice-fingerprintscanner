@@ -34,6 +34,7 @@ export interface FingerprintDataNativeResponseProps extends Omit<FingerprintData
 
 export interface DriverDataProps {
     isDeviceDriverFound: boolean;
+    status:number
     message: string;
 }
 
@@ -43,6 +44,7 @@ export type PackageNameProp =
     | 'com.mantra.rdservice'
     | 'com.acpl.registersdk'
     | 'com.rd.gemalto.com.rdserviceapp'
+    | 'com.acpl.registersdk_l1'
     | 'com.integra.registered.device'
     | 'com.aratek.asix_gms.rdservice'
     | 'rdservice.metsl.metslrdservice'
@@ -50,6 +52,7 @@ export type PackageNameProp =
     | 'com.evolute.rdservice'
     | 'com.precision.pb510.rdservice'
     | 'com.mantra.mis100v2.rdservice'
+    | 'com.mantra.mfs110.rdservice'
     | 'com.nextbiometrics.rdservice'
     | 'com.iritech.rdservice'
     | 'com.evolute.iris.rdservice';
@@ -60,6 +63,7 @@ export interface AvailablePackageProps {
     Mantra: 'com.mantra.rdservice';
     Startek_FM220: 'com.acpl.registersdk';
     Gemalto_3M_Cogent_CSD200: 'com.rd.gemalto.com.rdserviceapp';
+    Startek_L1:'com.acpl.registersdk_l1',
     Integra: 'com.integra.registered.device';
     Aratek: 'com.aratek.asix_gms.rdservice';
     Maestros: 'rdservice.metsl.metslrdservice';
@@ -67,6 +71,7 @@ export interface AvailablePackageProps {
     Evolute: 'com.evolute.rdservice';
     PB510: 'com.precision.pb510.rdservice';
     MIS100V2_by_Mantra: 'com.mantra.mis100v2.rdservice';
+    MFS110_by_Mantra:'com.mantra.mfs110.rdservice';
     NEXT_Biometrics_NB3023: 'com.nextbiometrics.rdservice';
     IriTech_IriShield: 'com.iritech.rdservice';
     Evolute_IRIS: 'com.evolute.iris.rdservice';
@@ -75,7 +80,7 @@ export interface AvailablePackageProps {
 
 export interface FaceCaptureDataProps {
     pidDataJson: Record<string, any>;
-    pidDataXml: string;
+    pidDataXML: string;
     status: number;
     errInfo: string;
     errorCode: string;
